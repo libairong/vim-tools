@@ -20,8 +20,8 @@ set nocompatible
 
 " Platform
 function! MySys()
-   " return "linux"
-   return "windows"
+   return "linux"
+   " return "windows"
 endfunction
 
 set autochdir
@@ -749,5 +749,6 @@ map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " windows layout
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-copen " 打开全局搜索结果框
+
+" copen " 打开全局搜索结果框
 au VimEnter * :WMToggle " open buffer list
