@@ -662,13 +662,13 @@ endfunction
 
 " Fast grep
 " 当前文件搜索
-nmap <silent> <leader>f :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
-vmap <silent> <leader>f :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
+nmap <silent> <leader>vf :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
+vmap <silent> <leader>vf :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
 " 全局搜索
 " nmap <silent> <leader>v :vim /<c-r>=expand("<cword>")<cr>/j **<cr>
 " vmap <silent> <leader>v :vim /<c-r>=<sid>GetVisualSelection()<cr>/j **<cr>
-nmap <silent> <leader>v :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
-vmap <silent> <leader>v :lv /<c-r>=<sid>GetVisualSelection()<cr>/ **<cr>:lw<cr>
+nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
+vmap <silent> <leader>vg :lv /<c-r>=<sid>GetVisualSelection()<cr>/ **<cr>:lw<cr>
 
 
 " Fast diff
