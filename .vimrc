@@ -21,7 +21,7 @@ set nocompatible
 " Platform
 function! MySys()
    return "linux"
-   " return "windows"
+   "return "windows"
 endfunction
 
 set autochdir
@@ -510,7 +510,7 @@ nnoremap <silent> <F9> :BufExplorer<CR>
 if MySys() == "windows"
     let Tlist_Ctags_Cmd = 'ctags'
 elseif MySys() == "linux"
-    let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+    let Tlist_Ctags_Cmd = 'ctags'
 endif
 let Tlist_Show_One_File = 1
 let Tlist_Exit_OnlyWindow = 1
