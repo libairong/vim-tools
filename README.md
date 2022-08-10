@@ -1,5 +1,7 @@
 # vim-tools
 
+使用方法参考 readme.txt
+
 # 搜索/模糊搜索
 搜索使用命令: 
 /string
