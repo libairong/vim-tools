@@ -28,6 +28,12 @@ set autochdir
 "Sets how many lines of history VIM har to remember
 set history=400
 
+"""" call_plugins
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+"""" end_call_plugins
+
 " Chinese
 if MySys() == "windows"
    "set encoding=utf-8
@@ -506,7 +512,6 @@ nnoremap <silent> <F9> :BufExplorer<CR>
 
 """"""""""""""""""""""""""""""
 " taglist setting
-""""""""""""""""""""""""""""""
 if MySys() == "windows"
     let Tlist_Ctags_Cmd = 'ctags'
 elseif MySys() == "linux"
@@ -660,15 +665,16 @@ function! s:GetVisualSelection()
    return var
 endfunction
 
-" Fast grep
+" Fast grep, FIXME, should input by keyboard.
 " 当前文件搜索
-nmap <silent> <leader>vf :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
-vmap <silent> <leader>vf :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
+nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
+" vmap <silent> <leader>vo :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
+
 " 全局搜索
 " nmap <silent> <leader>v :vim /<c-r>=expand("<cword>")<cr>/j **<cr>
 " vmap <silent> <leader>v :vim /<c-r>=<sid>GetVisualSelection()<cr>/j **<cr>
-nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
-vmap <silent> <leader>vg :lv /<c-r>=<sid>GetVisualSelection()<cr>/ **<cr>:lw<cr>
+nmap <silent> <leader>vv :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
+" vmap <silent> <leader>vv :lv /<c-r>=<sid>GetVisualSelection()<cr>/ **<cr>:lw<cr>
 
 
 " Fast diff
@@ -754,4 +760,44 @@ map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " copen " 打开全局搜索结果框
-au VimEnter * :WMToggle " open buffer list
+" au VimEnter * :WMToggle " open buffer list
+
+"""" ctrlP_config
+"" options:
+" <leader>pb   # 模糊搜索最近打开的文件(MRU)
+" <leader>pp   # 模糊搜索当前目录及其子目录下的所有文件
+" ctrl + j/k  # 进行上下选择
+" ctrl + x    # 在当前窗口水平分屏打开文件
+" ctrl + v    # 同上, 垂直分屏
+" ctrl + t    # 在tab中打开
+" F5          # 刷新可搜索文件
+" <c-d>       # 只能搜索全路径文件
+" <c-r>       # 可以使用正则搜索文件
+
+let g:ctrlp_map = '<leader>pp'
+let g:ctrlp_cmd = 'CtrlP'
+map <leader>pb :CtrlPMRU<CR>
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+    \ }
+let g:ctrlp_working_path_mode=0
+let g:ctrlp_match_window_bottom=1
+let g:ctrlp_max_height=15
+let g:ctrlp_match_window_reversed=0
+let g:ctrlp_mruf_max=500
+let g:ctrlp_follow_symlinks=1
+"""" end_ctrlP_config
+
+"""" ctrlP-funky_config
+"" options
+" <leader>fk      # 进入当前文件的函数列表搜索
+" <leader>ff      # 搜索当前光标下单词对应的函数
+
+nnoremap <Leader>fk :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>ff :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+
+let g:ctrlp_extensions = ['funky']
+"""" end_ctrlP_funky_config
