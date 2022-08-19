@@ -801,3 +801,51 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 let g:ctrlp_extensions = ['funky']
 """" end_ctrlP_funky_config
+
+" airline
+let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ ['buffers'] ],
+      \   'right': [ ['close'] ]
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_type': {
+      \   'buffers': 'tabsel'
+      \ },
+      \ 'separator': {'left': ' ', 'right': ' '},
+      \ 'subseparator': {'left': ' ', 'right': ' '}
+      \ }
+
+" bufferline
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#enable_nerdfont = 1
+let g:lightline#bufferline#icon_position = 'right'
+" let g:lightline#bufferline#show_number = 3
+let g:bufferline_show_bufnr = 0 " do not show buffer num
+
+" let g:lightline#bufferline#number_map = {
+" \ 0: '⁰', 1: '¹ ', 2: '² ', 3: '³ ', 4: '⁴ ',
+" \ 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹'}
+
+let g:bufferline_show_bufnr = 0 " do not show buffer num
+
+function LightlineBufferlineFilter(buffer)
+  return getbufvar(a:buffer, '&buftype') !=# 'terminal'
+endfunction
+let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
