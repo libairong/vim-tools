@@ -12,6 +12,10 @@ set langmenu=zh_CN.UTF-8
 language message zh_CN.UTF-8
 set fileencodings=ucs-bom,utf-8,gb18030,cp936,big5,euc-jp,euc-kr,latin1
 
+""" test
+
+""" end test
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -332,8 +336,8 @@ nmap <C-h> <C-W>h
 nmap <C-l> <C-W>l
 
 "Use the arrows to something usefull
-"map <right> :bn<cr>
-"map <left> :bp<cr>
+map <C-right> :bn<cr>
+map <C-left> :bp<cr>
 
 try
   set switchbuf=useopen
@@ -755,13 +759,6 @@ map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 
 "set list
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" windows layout
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" copen " 打开全局搜索结果框
-" au VimEnter * :WMToggle " open buffer list
-
 """" ctrlP_config
 "" options:
 " <leader>pb   # 模糊搜索最近打开的文件(MRU)
@@ -781,12 +778,14 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
     \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
     \ }
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
-let g:ctrlp_match_window_reversed=0
-let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
+" let g:ctrlp_working_path_mode = ''
+let g:ctrlp_match_window_bottom = 1
+let g:ctrlp_max_height = 15
+let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_mruf_max = 500
+let g:ctrlp_follow_symlinks = 1
+" 以当前打开文件所在路径作为后续搜索路径, 避免进入子目录后搜索不了上一级的文件
+let g:ctrlp_root_markers= [expand("%:t")]
 """" end_ctrlP_config
 
 """" ctrlP-funky_config
@@ -802,14 +801,15 @@ let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_extensions = ['funky']
 """" end_ctrlP_funky_config
 
-" airline
+""" airline
 let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail'
+""" end airline
 
-" lightline
+""" lightline
 let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
@@ -831,8 +831,9 @@ let g:lightline = {
       \ 'separator': {'left': ' ', 'right': ' '},
       \ 'subseparator': {'left': ' ', 'right': ' '}
       \ }
+""" end lightline
 
-" bufferline
+""" bufferline
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#enable_nerdfont = 1
 let g:lightline#bufferline#icon_position = 'right'
@@ -849,3 +850,4 @@ function LightlineBufferlineFilter(buffer)
   return getbufvar(a:buffer, '&buftype') !=# 'terminal'
 endfunction
 let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
+""" end buferline
