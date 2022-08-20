@@ -509,7 +509,7 @@ nmap <C-LeftMouse> :tag <C-R>=expand("<cword>")<CR><CR>
 """"""""""""""""""""""""""""""
 let g:bufExplorerDefaultHelp=1       " Do not show default help.
 let g:bufExplorerShowRelativePath=1  " Show relative paths.
-let g:bufExplorerSortBy='mru'        " Sort by most recently used.
+let g:bufExplorerSortBy='number'        " Sort by most recently used.
 let g:bufExplorerSplitRight=0        " Split left.
 let g:bufExplorerSplitVertical=1     " Split vertically.
 let g:bufExplorerSplitVertSize = 30  " Split width
@@ -811,7 +811,7 @@ nnoremap <Leader>ff :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 
 let g:ctrlp_extensions = ['funky']
-"""" end_ctrlP_funky_config
+"""" end ctrlP_funky_config
 
 """ airline
 let g:airline#extensions#tabline#enabled = 1
