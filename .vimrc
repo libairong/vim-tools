@@ -682,12 +682,12 @@ nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 " 全局搜索
 " nmap <silent> <leader>v :vim /<c-r>=expand("<cword>")<cr>/j **<cr>
 " vmap <silent> <leader>v :vim /<c-r>=<sid>GetVisualSelection()<cr>/j **<cr>
-nmap <silent> <leader>vv :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
+nmap <silent> <leader>vv :lv /<c-r>=expand("<cword>")<cr>/j **<cr>:lw<cr>
 
 " 全局搜索输入的字符串
 function! SearchStringInCurrDir()
     let l:str = g:utils#GetStrByInput()
-    exec "lv /" . l:str . "/ ** | lw"
+    exec "lv /" . l:str . "/j ** | lw"
 endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
@@ -863,3 +863,4 @@ function LightlineBufferlineFilter(buffer)
 endfunction
 let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 """ end buferline
+
