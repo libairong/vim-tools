@@ -7,13 +7,18 @@
 " Version: 1.0
 " Last Change: 18/07/19 09:17:57
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""" source vimscripts
+source ~/.vim/myvimscripts/utils.vim
+
+"""" end source vimscripts
+
 set encoding=utf-8
 set langmenu=zh_CN.UTF-8
 language message zh_CN.UTF-8
 set fileencodings=ucs-bom,utf-8,gb18030,cp936,big5,euc-jp,euc-kr,latin1
 
 """ test
-
 """ end test
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -669,7 +674,7 @@ function! s:GetVisualSelection()
    return var
 endfunction
 
-" Fast grep, FIXME, should input by keyboard.
+""" Fast grep, FIXME, should input by keyboard.
 " 当前文件搜索
 nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 " vmap <silent> <leader>vo :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
@@ -678,8 +683,15 @@ nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 " nmap <silent> <leader>v :vim /<c-r>=expand("<cword>")<cr>/j **<cr>
 " vmap <silent> <leader>v :vim /<c-r>=<sid>GetVisualSelection()<cr>/j **<cr>
 nmap <silent> <leader>vv :lv /<c-r>=expand("<cword>")<cr>/ **<cr>:lw<cr>
-" vmap <silent> <leader>vv :lv /<c-r>=<sid>GetVisualSelection()<cr>/ **<cr>:lw<cr>
 
+" 全局搜索输入的字符串
+function! SearchStringInCurrDir()
+    let l:str = g:utils#GetStrByInput()
+    exec "lv /" . l:str . "/ ** | lw"
+endfunction
+
+nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
+""" end Fast grep
 
 " Fast diff
 cmap @vd vertical diffsplit
