@@ -330,9 +330,11 @@ function! CurDir()
    let curdir = substitute(getcwd(), '/home/', "~/", "g")
    return curdir
 endfunction
+
+let s:dir_first_opened = expand("%:h")
 "Format the statusline
 "set statusline=\ %F%m%r%h\ %w\ \ PWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c\ %p
-set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ %=Line:\ %l,%c\ %p%%\ %{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\
+" set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ %=Line:\ %l,%c\ %p%%\ %{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\
 
 "Smart way to move btw. windows
 nmap <C-j> <C-W>j
@@ -796,7 +798,9 @@ let g:ctrlp_max_height = 15
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_mruf_max = 500
 let g:ctrlp_follow_symlinks = 1
-" 以当前打开文件所在路径作为后续搜索路径, 避免进入子目录后搜索不了上一级的文件
+" 以当前打开文件作为参考，其所在路径作为后续搜索路径, 避免进入子目录后搜索不了上一级的文件
+" FIXME,
+" 但是一旦进入到子目录下，并且子目录下有与父目录一样的文件名的时候，会出现只搜索子目录的情况
 let g:ctrlp_root_markers= [expand("%:t")]
 """" end_ctrlP_config
 
@@ -812,12 +816,19 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 let g:ctrlp_extensions = ['funky']
 
+"" Search the definition of the function.
+" 排除不必要的文件，不对它们进行搜索, 下面这句 += 后面不要有空格
+set wildignore+=Makefile,*.o
+
 function! SearchFunctionDefine()
     let l:str = expand('<cword>')
-    exec "lv /" . l:str . "(.*)[\\s\\n{]" . "/j *.c *.h | lw"
+    exec "lv /" . l:str . "(.*)\\s*\\n*[^;]{*" . "/j "
+         \ . s:dir_first_opened . "/** "
+         \ . " | lw"
 endfunction
 
 nmap <silent> <leader>fd :call SearchFunctionDefine() <cr>
+"" end Search the definition of the function.
 """" end ctrlP_funky_config
 
 """ airline
