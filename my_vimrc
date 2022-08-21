@@ -801,7 +801,11 @@ let g:ctrlp_follow_symlinks = 1
 " 以当前打开文件作为参考，其所在路径作为后续搜索路径, 避免进入子目录后搜索不了上一级的文件
 " FIXME,
 " 但是一旦进入到子目录下，并且子目录下有与父目录一样的文件名的时候，会出现只搜索子目录的情况
-let g:ctrlp_root_markers= [expand("%:t")]
+if expand("%:t") == ''
+    let g:ctrlp_working_path_mode = 'a'
+else
+    let g:ctrlp_root_markers= [expand("%:t")]
+endif
 """" end_ctrlP_config
 
 """" ctrlP-funky_config
