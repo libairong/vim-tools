@@ -19,6 +19,12 @@ language message zh_CN.UTF-8
 set fileencodings=ucs-bom,utf-8,gb18030,cp936,big5,euc-jp,euc-kr,latin1
 
 """ test
+" set grepprg=grep
+" set grepprg = "grep -rn $* "
+" set grepprg=grep\ -n\ -i\ $*
+
+" silent! grep -rn usage src/lua.c
+" redraw!
 """ end test
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -543,7 +549,7 @@ nmap <silent> <F7> :Tlist<cr>
 "let g:winManagerWindowLayout='FileExplorer'
 let g:winManagerWidth = 25
 "let g:winManagerWindowLayout = "BufExplorer,FileExplorer|TagList"
-let g:winManagerWindowLayout = "BufExplorer|FileExplorer"
+let g:winManagerWindowLayout="BufExplorer|FileExplorer"
 let g:defaultExplorer = 1
 let g:persistentBehaviour=0  "winmanager的窗口是最后一个窗口时，退出VIM
 nmap <C-W><C-F> :FirstExplorerWindow<cr>
@@ -563,7 +569,7 @@ nmap <silent> <F2> :Sexplore!<cr>
 """"""""""""""""""""""""""""""
 " LaTeX Suite things
 """"""""""""""""""""""""""""""
-set grepprg=grep\ -nH\ $*
+set grepprg=grep\ -n\ $*
 let g:Tex_DefaultTargetFormat="pdf"
 let g:Tex_ViewRule_pdf='xpdf'
 
@@ -794,7 +800,7 @@ let g:ctrlp_custom_ignore = {
     \ }
 " let g:ctrlp_working_path_mode = ''
 let g:ctrlp_match_window_bottom = 1
-let g:ctrlp_max_height = 15
+let g:ctrlp_max_height = 25
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_mruf_max = 500
 let g:ctrlp_follow_symlinks = 1
@@ -885,4 +891,34 @@ function LightlineBufferlineFilter(buffer)
 endfunction
 let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 """ end buferline
+
+
+""" vim_which_key
+" https://www.jianshu.com/p/e47f7ec27cea
+set timeoutlen=500
+
+let g:mapleader="\<Space>"
+
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+
+nnoremap <Leader>a<Tab> :echom "Hello, World"<cr>
+nnoremap <Leader>1 :echom "THis is one"<cr>
+
+let g:which_key_map = {}
+
+let g:which_key_map.a = {
+            \ 'name':"Test",
+            \ '<Tab>':"Hello world"
+            \}
+
+let g:which_key_map.1 = "One"
+
+call which_key#register('<Space>', "g:which_key_map")
+""" end vim_which_key
+
+""" mark
+
+
+""" end mark
 
