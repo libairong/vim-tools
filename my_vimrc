@@ -682,18 +682,69 @@ function! s:GetVisualSelection()
    return var
 endfunction
 
+""" mark_config
+" delete all mark
+delmarks!
+
+let s:currFreeMark = 'A'
+let s:markIndex = 'A'
+
+""" set mark before jump to athor file.
+"
+function! SetMark()
+  exec "normal! m" . s:currFreeMark
+  if s:currFreeMark == 'Z'
+    let s:currFreeMark = 'A'
+  else
+    let s:currFreeMark = nr2char(char2nr(s:currFreeMark) + 1)
+  endif
+  let s:markIndex = s:currFreeMark
+endfunction
+
+nmap <silent> <leader>sm :call SetMark()<cr>
+
+""" backOrFront 0:back, 1: front
+function! JumpToMark(backOrFront)
+  if s:markIndex == 'A'
+    let s:markIndex = 'Z'
+  else
+    let s:markIndex = nr2char(char2nr(s:markIndex) - 1)
+  endif
+
+  if a:backOrFront == 0
+    echo "normal! `" . s:markIndex
+    exec "normal! `" . s:markIndex
+  elseif a:backOrFront == 1
+    let s:markIndex = nr2char(char2nr(s:validMark) + 1)
+    echo "normal! `" . s:markIndex
+    exec "normal! `" . s:markIndex
+  endif
+
+endfunction
+
+nmap <C-0> :call JumpToMark(1)<cr>
+nmap <C-9> :call JumpToMark(0)<cr>
+""" end mark_config
+
+
 """ Fast grep, FIXME, should input by keyboard.
 " 当前文件搜索
 nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
-" vmap <silent> <leader>vo :lv /<c-r>=<sid>GetVisualSelection()<cr>/ %<cr>:lw<cr>
 
 " 全局搜索
-" nmap <silent> <leader>v :vim /<c-r>=expand("<cword>")<cr>/j **<cr>
-" vmap <silent> <leader>v :vim /<c-r>=<sid>GetVisualSelection()<cr>/j **<cr>
-nmap <silent> <leader>vv :lv /<c-r>=expand("<cword>")<cr>/j **<cr>:lw<cr>
+function! SearchCurrStringInCurrDir()
+    call SetMark()
+
+    let l:str = expand("<cword>")
+    exec "lv /" . l:str . "/j ** | lw"
+endfunction
+
+nmap <silent> <leader>vv :call SearchCurrStringInCurrDir() <cr>
 
 " 全局搜索输入的字符串
 function! SearchStringInCurrDir()
+    call SetMark()
+
     let l:str = g:utils#GetStrByInput()
     exec "lv /" . l:str . "/j ** | lw"
 endfunction
@@ -831,6 +882,8 @@ let g:ctrlp_extensions = ['funky']
 set wildignore+=Makefile,*.o
 
 function! SearchFunctionDefine()
+    call SetMark()
+
     let l:str = expand('<cword>')
     exec "lv /" . l:str . "(.*)\\s*\\n*[^;]{*" . "/j "
          \ . s:dir_first_opened . "/** "
@@ -916,9 +969,4 @@ let g:which_key_map.1 = "One"
 
 call which_key#register('<Space>', "g:which_key_map")
 """ end vim_which_key
-
-""" mark
-
-
-""" end mark
 
