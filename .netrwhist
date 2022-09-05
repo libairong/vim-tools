@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/c/Electronics/Linux-C-work/C/data_structures/binary_trees'
+let g:netrw_dirhist_2='/c/Electronics/Linux-C-work/C/leetcode/src'
+let g:netrw_dirhist_1='/c/Electronics/Linux-C-work/C/data_structures'

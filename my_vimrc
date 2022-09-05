@@ -691,7 +691,9 @@ let s:markIndex = 'A'
 
 """ set mark before jump to athor file.
 "
+" FIXME, mark should start on indexMark
 function! SetMark()
+  " let s:currFreeMark = s:markIndex
   exec "normal! m" . s:currFreeMark
   if s:currFreeMark == 'Z'
     let s:currFreeMark = 'A'
@@ -715,7 +717,7 @@ function! JumpToMark(backOrFront)
     echo "normal! `" . s:markIndex
     exec "normal! `" . s:markIndex
   elseif a:backOrFront == 1
-    let s:markIndex = nr2char(char2nr(s:validMark) + 1)
+    let s:markIndex = nr2char(char2nr(s:markIndex) + 1)
     echo "normal! `" . s:markIndex
     exec "normal! `" . s:markIndex
   endif
