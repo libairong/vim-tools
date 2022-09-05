@@ -90,4 +90,5 @@ find {regex}
 # 跳转
 搜索后，跳转，可以通过ctrl+o 返回到跳转前的地方。还可以ctrl+i 向前跳转。
 
-
+# mark
+支持 vim-bookmarks，用法参考插件的readme
