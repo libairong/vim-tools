@@ -737,7 +737,8 @@ nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 function! SearchCurrStringInCurrDir()
 
     let l:str = expand("<cword>")
-    exec "lv /" . l:str . "/j ** | lw"
+    exec "AsyncRun! grep -rn \"" . l:str . "\" " . s:dir_first_opened
+    exec "copen"
 endfunction
 
 nmap <silent> <leader>vv :call SearchCurrStringInCurrDir() <cr>
