@@ -747,7 +747,7 @@ nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
 function! SearchFunctionDefine()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrn \"" . l:str . "\" " . s:dir_first_opened ." | grep \"(*)\" | grep \"[^;]$\" "
+    exec "AsyncRun! grep -wrn \"" . l:str . "\" " . "." ." | grep \"(*)\" | grep \"[^;]$\" "
     exec "copen"
 endfunction
 
