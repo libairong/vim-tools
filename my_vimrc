@@ -744,6 +744,14 @@ function! SearchStringInCurrDir()
 endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
+
+function! SearchFunctionDefine()
+    let l:str = expand('<cword>')
+    exec "AsyncRun! grep -wrn \"" . l:str . "\" " . s:dir_first_opened ." | grep \"(*)\" | grep \"[^;]$\" "
+    exec "copen"
+endfunction
+
+nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
 """ end Fast grep
 
 " Fast diff
@@ -874,14 +882,7 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
     "" Search the definition of the function.
     " 排除不必要的文件，不对它们进行搜索, 下面这句 += 后面不要有空格
     set wildignore+=Makefile,*.o
-    
-    function! SearchFunctionDefine()
-        let l:str = expand('<cword>')
-        exec "AsyncRun! grep -wrn \"" . l:str . "\" " . s:dir_first_opened ." | grep \"(*)\" | grep \"[^;]$\" "
-        exec "copen"
-    endfunction
-    
-    nmap <silent> <leader>fd :call SearchFunctionDefine() <cr>
+
     "" end Search the definition of the function.
     """" end ctrlP_funky_config
 else
