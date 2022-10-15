@@ -731,7 +731,7 @@ nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 function! SearchCurrStringInCurrDir()
 
     let l:str = expand("<cword>")
-    exec "AsyncRun! grep -rn \"" . l:str . "\" " . s:dir_first_opened
+    exec "AsyncRun! grep -rnI \"" . l:str . "\" ."
     exec "copen"
 endfunction
 
@@ -747,11 +747,20 @@ nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
 function! SearchFunctionDefine()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrn \"" . l:str . "\" " . "." ." | grep \"(*)\" | grep \"[^;]$\" "
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . "." ." | grep \"(*).*[){\\\\\\\\.*]$\" "
     exec "copen"
 endfunction
 
 nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
+
+" 如果vf找不到函数定义，可以用下面的功能，至少可以轻松一点
+function! SearchFunctionDefine1()
+    let l:str = expand('<cword>')
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . "." ." | grep \"(.*[^;]$\" "
+    exec "copen"
+endfunction
+
+nmap <silent> <leader>vff :call SearchFunctionDefine1() <cr>
 """ end Fast grep
 
 " Fast diff
@@ -870,11 +879,11 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
     """" ctrlP-funky_config
     "" options
     " <leader>fk      # 进入当前文件的函数列表搜索
-    " <leader>ff      # 搜索当前光标下单词对应的函数
+    " <leader>kf      # 搜索当前光标下单词对应的函数
     
     nnoremap <Leader>kk :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
-    nnoremap <Leader>ff :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+    nnoremap <Leader>kf :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
     let g:ctrlp_funky_syntax_highlight = 1
     
     let g:ctrlp_extensions = ['funky']
