@@ -725,7 +725,7 @@ nmap <C-9> :call JumpToMark(0)<cr>
 
 """ Fast grep, FIXME, should input by keyboard.
 " 当前文件搜索
-nmap <silent> <leader>vg :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
+nmap <silent> <leader>vg :vim /<c-r>=expand("<cword>")<cr>/ %<cr>:copen<cr>
 
 " 全局搜索
 function! SearchCurrStringInCurrDir()
@@ -740,7 +740,7 @@ nmap <silent> <leader>vv :call SearchCurrStringInCurrDir() <cr>
 " 全局搜索输入的字符串
 function! SearchStringInCurrDir()
     let l:str = g:utils#GetStrByInput()
-    exec "lv /" . l:str . "/j ** | lw"
+    exec "vim /" . l:str . "/j ** | copen"
 endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
@@ -875,19 +875,19 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
         let g:ctrlp_root_markers= [expand("%:t")]
     endif
     """" end_ctrlP_config
-    
+
     """" ctrlP-funky_config
     "" options
     " <leader>fk      # 进入当前文件的函数列表搜索
     " <leader>kf      # 搜索当前光标下单词对应的函数
-    
+
     nnoremap <Leader>kk :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
     nnoremap <Leader>kf :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
     let g:ctrlp_funky_syntax_highlight = 1
-    
+
     let g:ctrlp_extensions = ['funky']
-    
+
     "" Search the definition of the function.
     " 排除不必要的文件，不对它们进行搜索, 下面这句 += 后面不要有空格
     set wildignore+=Makefile,*.o
@@ -897,7 +897,7 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
 else
     """" leaderF
     """" https://retzzz.github.io/dc9af5aa/
-    let g:Lf_WindowPosition = 'popup'
+"    let g:Lf_WindowPosition = 'popup'
     let g:Lf_ShortcutF = '<leader>pp'
     let g:Lf_ShortcutB = '<leader>pb'
     noremap <leader>f :LeaderfSelf<cr>
