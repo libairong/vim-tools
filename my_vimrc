@@ -12,7 +12,7 @@ source ~/.vim/myvimscripts/utils.vim
 
 """" prepare
 if g:utils#FileIsExisted(".vim-cache") == "exited"
-  echo "exit"
+  " echo "exit"
 else
   " Creat .vim-cache
   silent execute "!touch .vim-cache"
@@ -332,15 +332,9 @@ set wrap
 "Always hide the statusline
 set laststatus=2
 
-function! CurDir()
-   let curdir = substitute(getcwd(), '/home/', "~/", "g")
-   return curdir
-endfunction
-
-let s:dir_first_opened = expand("%:h")
 "Format the statusline
-"set statusline=\ %F%m%r%h\ %w\ \ PWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c\ %p
-" set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ %=Line:\ %l,%c\ %p%%\ %{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\
+"set statusline=\ %F%m%r%h\ %w\ \ PWD:\ %r%{g:utils#CurDir()}%h\ \ \ Line:\ %l/%L:%c\ %p
+" set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{g:utils#CurDir()}\ \ %=Line:\ %l,%c\ %p%%\ %{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\
 
 "Smart way to move btw. windows
 nmap <C-j> <C-W>j
@@ -728,16 +722,16 @@ nmap <C-0> :call JumpToMark(1)<cr>
 nmap <C-9> :call JumpToMark(0)<cr>
 """ end mark_config
 
-
-""" Fast grep, FIXME, should input by keyboard.
+""" Fast_grep, FIXME, should input by keyboard.
+let s:currPath = g:utils#GetFullPath()
+echo s:currPath
 " 当前文件搜索
 nmap <silent> <leader>vg :vim /<c-r>=expand("<cword>")<cr>/ %<cr>:copen<cr>
 
 " 全局搜索
 function! SearchCurrStringInCurrDir()
-
     let l:str = expand("<cword>")
-    exec "AsyncRun! grep -rnI \"" . l:str . "\" ."
+    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath
     exec "copen"
 endfunction
 
@@ -753,7 +747,7 @@ nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
 function! SearchFunctionDefine()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . "." ." | grep \"(*).*[){\\\\\\\\.*]$\" "
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
     exec "copen"
 endfunction
 
@@ -762,12 +756,12 @@ nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
 " 如果vf找不到函数定义，可以用下面的功能，至少可以轻松一点
 function! SearchFunctionDefine1()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" . " . " | grep \"(.*[^;]$\" "
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath . " | grep \"(.*[^;]$\" "
     exec "copen"
 endfunction
 
 nmap <silent> <leader>vff :call SearchFunctionDefine1() <cr>
-""" end Fast grep
+""" end Fast_grep
 
 " Fast diff
 cmap @vd vertical diffsplit
