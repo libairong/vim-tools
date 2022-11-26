@@ -1,7 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " This vimrc is based on the vimrc by Amix - http://amix.dk/
-" You can find the latest version on:
-"       http://blog.csdn.net/easwy
 "
 " Maintainer:
 " Version: 1.0
@@ -10,8 +8,16 @@
 
 """" source vimscripts
 source ~/.vim/myvimscripts/utils.vim
-
 """" end source vimscripts
+
+"""" prepare
+if g:utils#FileIsExisted(".vim-cache") == "exited"
+  echo "exit"
+else
+  " Creat .vim-cache
+  silent execute "!touch .vim-cache"
+endif
+"""" end prepare
 
 set encoding=utf-8
 " set langmenu=zh_CN.UTF-8
@@ -82,7 +88,7 @@ nmap <silent> <leader>wf :w!<cr>
 nmap <silent> <leader>wq :wq<cr>
 nmap <silent> <leader>qf :q!<cr>
 nmap <silent> <leader>qq :q<cr>
-nmap <silent> <leader>qa :qa<cr>
+nmap <silent> <leader>qa :!rm .vim-cache<cr>:qa<cr>
 
 "Fast remove highlight search
 nmap <silent> <leader><cr> :noh<cr>
@@ -756,7 +762,7 @@ nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
 " 如果vf找不到函数定义，可以用下面的功能，至少可以轻松一点
 function! SearchFunctionDefine1()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . "." ." | grep \"(.*[^;]$\" "
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" . " . " | grep \"(.*[^;]$\" "
     exec "copen"
 endfunction
 
@@ -900,6 +906,10 @@ else
 "    let g:Lf_WindowPosition = 'popup'
     let g:Lf_ShortcutF = '<leader>pp'
     let g:Lf_ShortcutB = '<leader>pb'
+    let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
+    " let g:Lf_WorkingDirectoryMode = 'c'
+    let g:Lf_WorkingDirectoryMode = 'AF'
+    let g:Lf_RootMarkers = ['.vim-cache']
     noremap <leader>f :LeaderfSelf<cr>
     noremap <leader>fm :LeaderfMru<cr>
     noremap <leader>kk :LeaderfFunction<cr>

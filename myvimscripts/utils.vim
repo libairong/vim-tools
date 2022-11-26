@@ -3,3 +3,9 @@ function! g:utils#GetStrByInput()
    return str
 endfunction
 
+function! g:utils#FileIsExisted(fileName)
+   if findfile(a:fileName, ".") == a:fileName
+     return "exited"
+   endif
+   return "NoExited"
+endfunction
