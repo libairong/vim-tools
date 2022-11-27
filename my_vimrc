@@ -746,7 +746,8 @@ nmap <silent> <leader>vv :call SearchCurrStringInCurrDir() <cr>
 " 全局搜索输入的字符串
 function! SearchStringInCurrDir()
     let l:str = g:utils#GetStrByInput()
-    exec "vim /" . l:str . "/j ** | copen"
+    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . g:GlobalConstant#currPath
+    exec "copen"
 endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
