@@ -13,6 +13,11 @@ function! g:utils#GetFullPath()
    return currPath
 endfunction
 
+function! g:utils#GetFullPathForSed()
+   let currPath = substitute(getcwd(), '/', '\\/', 'g')
+   return currPath . '\/'
+endfunction
+
 function! g:utils#FileIsExisted(fileName)
    if findfile(a:fileName, ".") == a:fileName
      return "exited"

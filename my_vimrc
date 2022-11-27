@@ -8,6 +8,7 @@
 
 """" source vimscripts
 source ~/.vim/myvimscripts/utils.vim
+source ~/.vim/myvimscripts/GlobalConstant.vim
 """" end source vimscripts
 
 """" prepare
@@ -87,8 +88,13 @@ nmap <silent> <leader>wf :w!<cr>
 "Fast quiting
 nmap <silent> <leader>wq :wq<cr>
 nmap <silent> <leader>qf :q!<cr>
-nmap <silent> <leader>qq :q<cr>
-nmap <silent> <leader>qa :!rm .vim-cache<cr>:qa<cr>
+
+function! QAExit()
+  let l:cmd = "!rm " . g:GlobalConstant#currPath . "/.vim-cache"
+  silent exec l:cmd
+endfunction
+
+nmap <silent> <leader>qq :call QAExit()<cr>:qa<cr>
 
 "Fast remove highlight search
 nmap <silent> <leader><cr> :noh<cr>
@@ -723,15 +729,15 @@ nmap <C-9> :call JumpToMark(0)<cr>
 """ end mark_config
 
 """ Fast_grep, FIXME, should input by keyboard.
-let s:currPath = g:utils#GetFullPath()
-echo s:currPath
 " 当前文件搜索
 nmap <silent> <leader>vg :vim /<c-r>=expand("<cword>")<cr>/ %<cr>:copen<cr>
 
 " 全局搜索
 function! SearchCurrStringInCurrDir()
     let l:str = expand("<cword>")
-    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath
+    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . g:GlobalConstant#currPath
+"    echo "search ..."
+"    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath . "| sed 's/" . "\\/home\\/libairong" . "/~/g'"
     exec "copen"
 endfunction
 
@@ -747,7 +753,9 @@ nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
 function! SearchFunctionDefine()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
+"    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
+"	  \ . "| sed 's/" . s:currPath . "//g'"
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . g:GlobalConstant#currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
     exec "copen"
 endfunction
 
@@ -756,7 +764,7 @@ nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
 " 如果vf找不到函数定义，可以用下面的功能，至少可以轻松一点
 function! SearchFunctionDefine1()
     let l:str = expand('<cword>')
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath . " | grep \"(.*[^;]$\" "
+    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . g:GlobalConstant#currPath . " | grep \"(.*[^;]$\" "
     exec "copen"
 endfunction
 
@@ -852,8 +860,8 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
     " F5          # 刷新可搜索文件
     " <c-d>       # 只能搜索全路径文件
     " <c-r>       # 可以使用正则搜索文件
-    
-    let g:ctrlp_map = '<leader>pp'
+
+    let g:ctrlp_map = '<leader>p'
     let g:ctrlp_cmd = 'CtrlP'
     map <leader>pb :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
@@ -881,7 +889,7 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
     " <leader>fk      # 进入当前文件的函数列表搜索
     " <leader>kf      # 搜索当前光标下单词对应的函数
 
-    nnoremap <Leader>kk :CtrlPFunky<Cr>
+    nnoremap <C-k> :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
     nnoremap <Leader>kf :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
     let g:ctrlp_funky_syntax_highlight = 1
@@ -898,7 +906,7 @@ else
     """" leaderF
     """" https://retzzz.github.io/dc9af5aa/
 "    let g:Lf_WindowPosition = 'popup'
-    let g:Lf_ShortcutF = '<leader>pp'
+    let g:Lf_ShortcutF = '<leader>p'
     let g:Lf_ShortcutB = '<leader>pb'
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
     " let g:Lf_WorkingDirectoryMode = 'c'
@@ -906,7 +914,7 @@ else
     let g:Lf_RootMarkers = ['.vim-cache']
     noremap <leader>f :LeaderfSelf<cr>
     noremap <leader>fm :LeaderfMru<cr>
-    noremap <leader>kk :LeaderfFunction<cr>
+    noremap <C-k>      :LeaderfFunction<cr>
     noremap <leader>fb :LeaderfBufTagAll<cr>
     noremap <leader>ft :LeaderfBufTag<cr>
     noremap <leader>fl :LeaderfLine<cr>
