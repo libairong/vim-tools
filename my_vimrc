@@ -343,14 +343,15 @@ set laststatus=2
 " set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{g:utils#CurDir()}\ \ %=Line:\ %l,%c\ %p%%\ %{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\
 
 "Smart way to move btw. windows
-nmap <C-j> <C-W>j
-nmap <C-k> <C-W>k
-nmap <C-h> <C-W>h
-nmap <C-l> <C-W>l
+" nmap <C-j> <C-W>j
+" nmap <C-k> <C-W>k
+" nmap <C-h> <C-W>h
+" nmap <C-l> <C-W>l
 
 "Use the arrows to something usefull
 map <C-right> :bn<cr>
 map <C-left> :bp<cr>
+nmap <C-v> :vsplit<cr><c-left><cr>
 
 try
   set switchbuf=useopen
@@ -908,7 +909,7 @@ else
     """" https://retzzz.github.io/dc9af5aa/
 "    let g:Lf_WindowPosition = 'popup'
     let g:Lf_ShortcutF = '<leader>p'
-    let g:Lf_ShortcutB = '<leader>pb'
+    " let g:Lf_ShortcutB = '<leader>pb'
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
     " let g:Lf_WorkingDirectoryMode = 'c'
     let g:Lf_WorkingDirectoryMode = 'AF'
@@ -920,6 +921,8 @@ else
     noremap <leader>ft :LeaderfBufTag<cr>
     noremap <leader>fl :LeaderfLine<cr>
     noremap <leader>fw :LeaderfWindow<cr>
+    noremap <C-j>      :LeaderfMruCwd<cr>
+    let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', ],'dir':['.git', '.vim-cache',]}
     """" end leaderF
 
 endif
