@@ -757,15 +757,42 @@ endfunction
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
 function! SearchFunctionDefine()
-    let l:str = expand('<cword>')
-"    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . s:currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
-"	  \ . "| sed 's/" . s:currPath . "//g'"
-    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . " --exclude=tags "
-	  \   . g:GlobalConstant#currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
+    let l:funcName = expand('<cword>')
+"    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . " --exclude=tags "
+"	    \   . g:GlobalConstant#currPath ." | grep \"(*).*[){\\\\\\\\.*]$\" "
+
+    exec "AsyncRun! grep -rnw -e '" . l:funcName . "([^)]*)[^;]*$' --exclude=tags "
+            \   . g:GlobalConstant#currPath
     exec "copen"
 endfunction
 
 nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
+
+function! FindCFunc()
+  " 定义函数名称
+  let func_name = input("Enter function name: ")
+
+  " 查找 C 文件
+  let c_files = split(glob("**/*.c"), "\n")
+
+  " 遍历 C 文件
+  for file in c_files
+    " 查找函数定义
+    let cmd = "grep -n '^\\s*\\(static\\|\\)\\s*\\(void\\|int\\|char\\|float\\|double\\)\\s*" . func_name . "(.*' " . file
+    let output = system(cmd)
+
+    " 如果找到了函数定义，输出所在位置
+    if output != ""
+      let lines = split(output, "\n")
+      for line in lines
+        let parts = split(line, ":")
+        let line_num = parts[1]
+        let file_path = parts[0]
+        echo file_path . ":" . line_num
+      endfor
+    endif
+  endfor
+endfunction
 
 " 如果vf找不到函数定义，可以用下面的功能，至少可以轻松一点
 function! SearchFunctionDefine1()
