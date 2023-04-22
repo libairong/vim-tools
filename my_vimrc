@@ -351,7 +351,7 @@ set laststatus=2
 "Use the arrows to something usefull
 map <C-right> :bn<cr>
 map <C-left> :bp<cr>
-nmap <C-v> :vsplit<cr><c-left><cr>
+nmap <C-\> :vsplit<cr><c-left><cr>
 
 try
   set switchbuf=useopen
