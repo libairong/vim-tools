@@ -924,7 +924,7 @@ else
     noremap <C-k>      :LeaderfFunction<cr>
     noremap <leader>fb :LeaderfBufTagAll<cr>
     noremap <leader>ft :LeaderfBufTag<cr>
-    noremap <leader>fl :LeaderfLine<cr>
+    noremap <C-l>      :LeaderfLine<cr>
     noremap <leader>fw :LeaderfWindow<cr>
     noremap <C-j>      :LeaderfMruCwd<cr>
     let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', ],'dir':['.git', '.vim-cache',]}
