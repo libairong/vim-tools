@@ -756,6 +756,17 @@ endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
 
+" 全局搜索
+function! SearchCurrWordInCurrDir()
+    let l:str = expand("<cword>")
+    exec "AsyncRun! grep -rnwI \"" . l:str . "\" "
+         \ . " --exclude=tags ". g:GlobalConstant#currPath
+"    echo "search ..."
+"    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath . "| sed 's/" . "\\/home\\/libairong" . "/~/g'"
+    exec "copen"
+endfunction
+nmap <silent> <leader>vw :call SearchCurrWordInCurrDir() <cr>
+
 function! SearchFunctionDefine()
     let l:funcName = expand('<cword>')
 "    exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . " --exclude=tags "
