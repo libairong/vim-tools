@@ -351,6 +351,7 @@ set laststatus=2
 "Use the arrows to something usefull
 map <C-right> :bn<cr>
 map <C-left> :bp<cr>
+map <C-g> :pwd<cr>
 nmap <C-\> :vsplit<cr><c-left><cr>
 
 try
