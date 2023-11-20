@@ -105,4 +105,6 @@ find {regex}
 # 空格 + vg
 当前文件下查找指针所在字符串
 
+# 普通模式下 按<F5> 可以显示一个浮窗终端；按<F6> show term，按<F7> hide term；按<F8> kill term；
+
 

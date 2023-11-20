@@ -94,7 +94,7 @@ function! QAExit()
   silent exec l:cmd
 endfunction
 
-nmap <silent> <leader>qq :call QAExit()<cr>:qa<cr>
+nmap <silent> <leader>qq :call QAExit()<cr>:FloatermKill<cr>:qa<cr>
 
 "Fast remove highlight search
 nmap <silent> <leader><cr> :noh<cr>
@@ -548,7 +548,7 @@ let Tlist_Process_File_Always=1
 let Tlist_Auto_Open = 1
 let g:Tlist_WinWidth=28
 let g:Tlist_GainFocus_On_ToggleOpen = 0
-nmap <silent> <F7> :Tlist<cr>
+nmap <silent> <F4> :Tlist<cr>
 
 """"""""""""""""""""""""""""""
 " winmanager setting
@@ -564,7 +564,7 @@ nmap <C-W><C-B> :BottomExplorerWindow<cr>
 let g:AutoOpenWinManager = 0
 nmap <silent> <leader>wm :WMToggle<cr>
 autocmd BufWinEnter \[Buf\ List\] setl nonumber
-nmap <silent> <F8> :WMToggle<cr>
+" nmap <silent> <F8> :WMToggle<cr>
 
 """"""""""""""""""""""""""""""
 " netrw setting
@@ -1051,4 +1051,12 @@ function! ShowFloatingTerm()
   " 返回窗口号以便稍后关闭
   return win
 endfunction
+
+""" vim-floaterm
+" https://github.com/voldikss/vim-floaterm
+let g:floaterm_keymap_new    = '<F5>'
+let g:floaterm_keymap_show   = '<F6>'
+let g:floaterm_keymap_hide   = '<F7>'
+let g:floaterm_keymap_kill = '<F8>'
+""" end vim-floaterm
 
