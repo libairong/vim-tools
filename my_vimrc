@@ -353,6 +353,8 @@ map <C-right> :bn<cr>
 map <C-left> :bp<cr>
 map <C-g> :pwd<cr>
 nmap <C-\> :vsplit<cr><c-left><cr>
+nmap <C-u> :vsplit<cr><c-left><cr>
+map <space>ad ggGd
 
 try
   set switchbuf=useopen
@@ -416,8 +418,11 @@ set nowb
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Enable folding, I find it very useful
-"set fen
-"set fdl=0
+set foldenable
+set foldmethod=manual
+set foldcolumn=1
+set fen
+set fdl=0
 nmap <silent> <leader>zo zO
 vmap <silent> <leader>zo zO
 
@@ -924,8 +929,9 @@ if !has("python3") || substitute(system("python -v"), "\n", "", "") == "Python 2
 else
     """" leaderF
     """" https://retzzz.github.io/dc9af5aa/
-"    let g:Lf_WindowPosition = 'popup'
+    " let g:Lf_WindowPosition = 'popup'
     let g:Lf_ShortcutF = '<leader>p'
+    let g:Lf_UseGitIgnore = 0
     " let g:Lf_ShortcutB = '<leader>pb'
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
     " let g:Lf_WorkingDirectoryMode = 'c'
@@ -1020,4 +1026,29 @@ let g:which_key_map.1 = "One"
 
 call which_key#register('<Space>', "g:which_key_map")
 """ end vim_which_key
+
+function! ConvertTabsToSpaces()
+    set expandtab
+    set tabstop=4
+    set shiftwidth=4
+    %retab!
+endfunction
+
+function! ShowFloatingTerm()
+  " 创建新的浮窗
+  let buf = term_start('bash', {'term_finish': 'close'})
+  let win = nvim_open_win(buf, 1, {'relative': 'editor', 'width': 80, 'height': 20, 'row': 5, 'col': 5, 'style': 'minimal'})
+
+  " 设置浮窗属性
+  call winrestcmd(win, "set winfixheight")
+  call winrestcmd(win, "set winfixwidth")
+  call winrestcmd(win, "set nocursorline")
+
+  " 开启鼠标支持和拖动
+  call winrestcmd(win, "set mouse=a")
+  call winrestcmd(win, "set winhl=Normal:Normal")
+
+  " 返回窗口号以便稍后关闭
+  return win
+endfunction
 
