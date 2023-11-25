@@ -11,14 +11,7 @@ source ~/.vim/myvimscripts/utils.vim
 source ~/.vim/myvimscripts/GlobalConstant.vim
 """" end source vimscripts
 
-"""" prepare
-if g:utils#FileIsExisted(".vim-cache") == "exited"
-  " echo "exit"
-else
-  " Creat .vim-cache
-  silent execute "!touch .vim-cache"
-endif
-"""" end prepare
+" echo g:GlobalConstant#vimCacheFile
 
 set encoding=utf-8
 " set langmenu=zh_CN.UTF-8
@@ -90,7 +83,7 @@ nmap <silent> <leader>wq :wq<cr>
 nmap <silent> <leader>qf :q!<cr>
 
 function! QAExit()
-  let l:cmd = "!rm " . g:GlobalConstant#currPath . "/.vim-cache"
+  let l:cmd = "!rm " . g:GlobalConstant#currPath . '/' . g:GlobalConstant#vimCacheFile
   silent exec l:cmd
 endfunction
 
@@ -936,7 +929,7 @@ else
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
     " let g:Lf_WorkingDirectoryMode = 'c'
     let g:Lf_WorkingDirectoryMode = 'AF'
-    let g:Lf_RootMarkers = ['.vim-cache']
+    let g:Lf_RootMarkers = [g:GlobalConstant#vimCacheFile]
     noremap <leader>f :LeaderfSelf<cr>
     noremap <leader>fm :LeaderfMru<cr>
     noremap <C-k>      :LeaderfFunction<cr>

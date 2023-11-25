@@ -24,3 +24,14 @@ function! g:utils#FileIsExisted(fileName)
    endif
    return "NoExited"
 endfunction
+
+function! g:utils#CreateVimFile()
+    let cwd = getcwd()
+    let vimCacheFile = '.vim' . substitute(cwd, '/', '-', 'g')
+    let filepath = cwd . '/' . vimCacheFile
+    if !filereadable(filepath)
+        execute 'silent !touch ' . vimCacheFile
+    endif
+    return vimCacheFile
+endfunction
+
