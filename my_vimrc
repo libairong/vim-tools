@@ -660,7 +660,7 @@ run macros/gdb_mappings.vim
    """"""""""""""""""""""""""""""
    " C/C++
    """""""""""""""""""""""""""""""
-   autocmd FileType c,cpp  map <buffer> <leader><space> :make<cr>
+   " autocmd FileType c,cpp  map <buffer> <leader><space> :make<cr>
    "autocmd FileType c,cpp  setl foldmethod=syntax | setl fen
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -923,7 +923,8 @@ else
     """" leaderF
     """" https://retzzz.github.io/dc9af5aa/
     " let g:Lf_WindowPosition = 'popup'
-    let g:Lf_ShortcutF = '<leader>p'
+
+    let g:Lf_ShortcutF = '<leader><space>'
     let g:Lf_UseGitIgnore = 0
     " let g:Lf_ShortcutB = '<leader>pb'
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
