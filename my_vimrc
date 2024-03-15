@@ -345,9 +345,19 @@ set laststatus=2
 map <C-right> :bn<cr>
 map <C-left> :bp<cr>
 map <C-g> :pwd<cr>
+""" display hex
+" map <C-h> :%!xxd<cr>
+function! ShowHex()
+  %!xxd
+endfunction
+
+function! SaveHex()
+  %!xxd -r
+endfunction
+
 nmap <C-\> :vsplit<cr><c-left><cr>
 nmap <C-u> :vsplit<cr><c-left><cr>
-map <space>ad ggGd
+map <space>ad ggVG
 
 try
   set switchbuf=useopen
@@ -1028,23 +1038,23 @@ function! ConvertTabsToSpaces()
     %retab!
 endfunction
 
-function! ShowFloatingTerm()
-  " 创建新的浮窗
-  let buf = term_start('bash', {'term_finish': 'close'})
-  let win = nvim_open_win(buf, 1, {'relative': 'editor', 'width': 80, 'height': 20, 'row': 5, 'col': 5, 'style': 'minimal'})
-
-  " 设置浮窗属性
-  call winrestcmd(win, "set winfixheight")
-  call winrestcmd(win, "set winfixwidth")
-  call winrestcmd(win, "set nocursorline")
-
-  " 开启鼠标支持和拖动
-  call winrestcmd(win, "set mouse=a")
-  call winrestcmd(win, "set winhl=Normal:Normal")
-
-  " 返回窗口号以便稍后关闭
-  return win
-endfunction
+" function! ShowFloatingTerm()
+"   " 创建新的浮窗
+"   let buf = term_start('bash', {'term_finish': 'close'})
+"   let win = nvim_open_win(buf, 1, {'relative': 'editor', 'width': 80, 'height': 20, 'row': 5, 'col': 5, 'style': 'minimal'})
+" 
+"   " 设置浮窗属性
+"   call winrestcmd(win, "set winfixheight")
+"   call winrestcmd(win, "set winfixwidth")
+"   call winrestcmd(win, "set nocursorline")
+" 
+"   " 开启鼠标支持和拖动
+"   call winrestcmd(win, "set mouse=a")
+"   call winrestcmd(win, "set winhl=Normal:Normal")
+" 
+"   " 返回窗口号以便稍后关闭
+"   return win
+" endfunction
 
 """ vim-floaterm
 " https://github.com/voldikss/vim-floaterm
