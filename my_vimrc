@@ -434,9 +434,10 @@ vmap <silent> <leader>zo zf%
 set foldmethod=marker
 set foldmarker={,}
 
-if argc() > 0
-    autocmd VimEnter * nested if argc() > 0 | execute "normal! zR" | endif
-endif
+" if argc() > 0
+"     autocmd VimEnter * nested if argc() > 0 | execute "normal! zR" | endif
+" endif
+autocmd BufRead * nested execute "normal! zR"
 " end_Folding
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
