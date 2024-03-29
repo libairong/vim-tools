@@ -348,7 +348,7 @@ map <C-g> :pwd<cr>
 """ display hex
 " map <C-h> :%!xxd<cr>
 function! ShowHex()
-  %!xxd
+  %!hexdump
 endfunction
 
 function! SaveHex()
@@ -426,9 +426,18 @@ set foldmethod=manual
 set foldcolumn=1
 set fen
 set fdl=0
-nmap <silent> <leader>zo zO
-vmap <silent> <leader>zo zO
+nmap <silent> <leader>zo zf%
+vmap <silent> <leader>zo zf%
+" if you want to open flod, just click '-' on line_bar.
 
+" set fold default config.
+set foldmethod=marker
+set foldmarker={,}
+
+if argc() > 0
+    autocmd VimEnter * nested if argc() > 0 | execute "normal! zR" | endif
+endif
+" end_Folding
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text options
