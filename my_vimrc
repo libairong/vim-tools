@@ -60,6 +60,22 @@ set autoread
 
 set clipboard+=unnamed " 共享外部剪贴板
 
+" 将当前选中的内容复制到系统剪贴板中
+function! CopySelectedToClipboard()
+    " 获取选中的内容
+    let l:selected_text = join(getline("'<", "'>"), "\n")
+
+    " 调用系统命令将内容复制到剪贴板
+    let l:cmd = 'echo "' . escape(l:selected_text, '\"$`') . '" | xsel -b'
+    call system(l:cmd)
+
+    " 提示消息
+    " echo "Copied to clipboard: " . l:selected_text
+endfunction
+
+" 绑定快捷键以调用复制函数
+vnoremap <C-y> :call CopySelectedToClipboard()<CR>
+
 "Have the mouse enabled all the time:
 set mouse=v
 set mouse=a
