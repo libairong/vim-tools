@@ -60,6 +60,11 @@ set autoread
 
 set clipboard+=unnamed " 共享外部剪贴板
 
+" set env for xsel
+if !empty($DISPLAY)
+    let $DISPLAY = ':0'
+endif
+
 " 将当前选中的内容复制到系统剪贴板中
 function! CopySelectedToClipboard()
     " 获取选中的内容
@@ -359,12 +364,14 @@ set laststatus=2
 
 "Use the arrows to something usefull
 map <C-right> :bn<cr>
-map <C-left> :bp<cr>
+map <C-left>  :bp<cr>
+nmap <C-up>    gg<cr>
+nmap <C-down>  G<cr>
 map <C-g> :pwd<cr>
 """ display hex
 " map <C-h> :%!xxd<cr>
 function! ShowHex()
-  %!hexdump
+  %!xxd
 endfunction
 
 function! SaveHex()
@@ -372,8 +379,6 @@ function! SaveHex()
 endfunction
 
 nmap <C-\> :vsplit<cr><c-left><cr>
-nmap <C-u> :vsplit<cr><c-left><cr>
-map <space>ad ggVG
 
 try
   set switchbuf=useopen
@@ -450,9 +455,6 @@ vmap <silent> <leader>zo zf%
 set foldmethod=marker
 set foldmarker={,}
 
-" if argc() > 0
-"     autocmd VimEnter * nested if argc() > 0 | execute "normal! zR" | endif
-" endif
 autocmd BufRead * nested execute "normal! zR"
 " end_Folding
 
@@ -855,9 +857,6 @@ nmap <silent> <leader>ds! :call DeleteTrailingWS()<cr>:w!<cr>
 
 "Super paste
 inoremap <C-v> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
-
-"Super select all
-nmap <C-a> ggVGY
 
 "Fast Ex command
 nnoremap ; :
