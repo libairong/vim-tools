@@ -9,6 +9,8 @@
 """" source vimscripts
 source ~/.vim/myvimscripts/utils.vim
 source ~/.vim/myvimscripts/GlobalConstant.vim
+source ~/.vim/myvimscripts/InitalCode.vim
+
 """" end source vimscripts
 
 " echo g:GlobalConstant#vimCacheFile
@@ -363,20 +365,23 @@ set laststatus=2
 " nmap <C-l> <C-W>l
 
 "Use the arrows to something usefull
-map <C-right> :bn<cr>
-map <C-left>  :bp<cr>
+nmap <C-right> :bn<cr>
+nmap <C-left>  :bp<cr>
 nmap <C-up>    gg<cr>
 nmap <C-down>  G<cr>
-map <C-g> :pwd<cr>
+nmap <C-g> :pwd<cr>
 """ display hex
 " map <C-h> :%!xxd<cr>
 function! ShowHex()
-  %!xxd
+  %!xxd -g 1
 endfunction
 
 function! SaveHex()
   %!xxd -r
 endfunction
+
+nmap <silent> <leader>hs :call ShowHex()<cr>
+nmap <silent> <leader>hw :call SaveHex()<cr>
 
 nmap <C-\> :vsplit<cr><c-left><cr>
 
@@ -769,6 +774,14 @@ nmap <C-9> :call JumpToMark(0)<cr>
 """ Fast_grep, FIXME, should input by keyboard.
 " 当前文件搜索
 nmap <silent> <leader>vg :vim /<c-r>=expand("<cword>")<cr>/ %<cr>:copen<cr>
+
+" 手动输入
+function! SearchStrByKeyboardInCurrFile()
+    let l:str = g:utils#GetStrByInput()
+    exec "vim /" . l:str . "/ %"
+    exec "copen"
+endfunction
+nmap <silent> <leader>vt :call SearchStrByKeyboardInCurrFile() <cr>
 
 " 全局搜索
 function! SearchCurrStringInCurrDir()
