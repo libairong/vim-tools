@@ -106,8 +106,10 @@ nmap <silent> <leader>wq :wq<cr>
 nmap <silent> <leader>qf :q!<cr>
 
 function! QAExit()
-  let l:cmd = "!rm " . g:GlobalConstant#currPath . '/' . g:GlobalConstant#vimCacheFile
-  silent exec l:cmd
+  let l:filename = g:GlobalConstant#currPath . '/' . g:GlobalConstant#vimCacheFile
+  if filereadable(l:filename)
+    call delete(l:filename)
+  endif
 endfunction
 
 nmap <silent> <leader>qq :call QAExit()<cr>:FloatermKill<cr>:qa<cr>
