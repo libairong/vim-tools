@@ -123,3 +123,5 @@ find {regex}
 # 依赖（需要安装软件给LeaderF 调用）
 pipgrep（模糊搜索文件内容）、xsel（复制到系统剪切板）
 
+# term的使用
+https://blog.csdn.net/ningyanggege/article/details/115623934

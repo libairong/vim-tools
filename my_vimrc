@@ -1104,3 +1104,27 @@ let g:floaterm_keymap_hide   = '<F7>'
 let g:floaterm_keymap_kill = '<F8>'
 """ end vim-floaterm
 
+" Git Blame Current Line and display in a separate window
+function! GitBlameWholeFile()
+    " 获取当前行号
+    let lnum = line('.')
+    let filename = expand('%:p')
+    let cmd = "git blame " . filename
+    let output = system(cmd)
+    let blame_buf = split(output, '\n')
+    " 创建一个新的垂直分割窗口用于显示 blame 输出
+    vsplit new
+    setlocal buftype=nofile bufhidden=wipe noswapfile
+    " 取消新窗口的自动换行
+    setlocal nowrap
+    " 将 blame 输出放入新窗口
+    put =blame_buf
+    " 打开新窗口的所有折叠
+    execute 'normal! zR'
+    " 移动光标到当前行
+    execute 'normal! ' . lnum . 'G'
+endfunction
+
+" Map <Space>bl to call GitBlameWholeFile
+nnoremap <silent> <Space>bl :call GitBlameWholeFile()<CR>
+
