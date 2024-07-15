@@ -1078,26 +1078,15 @@ function! ConvertTabsToSpaces()
     %retab!
 endfunction
 
-" function! ShowFloatingTerm()
-"   " 创建新的浮窗
-"   let buf = term_start('bash', {'term_finish': 'close'})
-"   let win = nvim_open_win(buf, 1, {'relative': 'editor', 'width': 80, 'height': 20, 'row': 5, 'col': 5, 'style': 'minimal'})
-" 
-"   " 设置浮窗属性
-"   call winrestcmd(win, "set winfixheight")
-"   call winrestcmd(win, "set winfixwidth")
-"   call winrestcmd(win, "set nocursorline")
-" 
-"   " 开启鼠标支持和拖动
-"   call winrestcmd(win, "set mouse=a")
-"   call winrestcmd(win, "set winhl=Normal:Normal")
-" 
-"   " 返回窗口号以便稍后关闭
-"   return win
-" endfunction
-
 """ vim-floaterm
 " https://github.com/voldikss/vim-floaterm
+" 设置 floaterm 右下角浮动窗口
+let g:floaterm_position = 'right'
+
+" 设置 floaterm 浮动窗口宽度和高度的比例
+let g:floaterm_width = 0.5
+let g:floaterm_height = 0.5
+
 let g:floaterm_keymap_new    = '<F5>'
 let g:floaterm_keymap_show   = '<F6>'
 let g:floaterm_keymap_hide   = '<F7>'
