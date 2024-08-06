@@ -45,6 +45,8 @@ syntax on
 filetype plugin indent on
 """" end_call_plugins
 
+source ~/.vim/myvimscripts/key_map.vim
+
 " Chinese
 if MySys() == "windows"
    "set encoding=utf-8
@@ -99,6 +101,7 @@ autocmd BufReadPost *
 
 "Fast saving
 nmap <silent> <leader>ww :w<cr>
+nmap <C-s> :w<cr>
 nmap <silent> <leader>wf :w!<cr>
 
 "Fast quiting
@@ -586,7 +589,7 @@ let Tlist_Process_File_Always=1
 let Tlist_Auto_Open = 1
 let g:Tlist_WinWidth=28
 let g:Tlist_GainFocus_On_ToggleOpen = 0
-nmap <silent> <F4> :Tlist<cr>
+nmap <silent> <leader>tl :Tlist<cr>
 
 """"""""""""""""""""""""""""""
 " winmanager setting
@@ -1046,36 +1049,17 @@ endfunction
 let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 """ end buferline
 
-
-""" vim_which_key
-" https://www.jianshu.com/p/e47f7ec27cea
-set timeoutlen=500
-
-let g:mapleader="\<Space>"
-
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
-
-nnoremap <Leader>a<Tab> :echom "Hello, World"<cr>
-nnoremap <Leader>1 :echom "THis is one"<cr>
-
-let g:which_key_map = {}
-
-let g:which_key_map.a = {
-            \ 'name':"Test",
-            \ '<Tab>':"Hello world"
-            \}
-
-let g:which_key_map.1 = "One"
-
-call which_key#register('<Space>', "g:which_key_map")
-""" end vim_which_key
-
 function! ConvertTabsToSpaces()
     set expandtab
     set tabstop=4
     set shiftwidth=4
     %retab!
+endfunction
+
+function! ChangeTabsToSpacesMode()
+    set expandtab
+    set tabstop=4
+    set shiftwidth=4
 endfunction
 
 """ vim-floaterm
