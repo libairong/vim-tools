@@ -71,8 +71,38 @@ endif
 
 " 将当前选中的内容复制到系统剪贴板中
 function! CopySelectedToClipboard()
-    " 获取选中的内容
-    let l:selected_text = join(getline("'<", "'>"), "\n")
+    " 获取当前选中的起始和结束位置
+    let l:start_line = line("'<")
+    let l:end_line = line("'>")
+
+    " 获取选中的行号和列号
+    let l:start_col = getpos("'<")[2]
+    let l:end_col = getpos("'>")[2]
+
+    " 初始化选中的文本
+    let l:selected_text = ''
+
+    " 循环处理选中的行
+    for l:line_num in range(l:start_line, l:end_line)
+        let line_text = getline(l:line_num)
+        if l:line_num == l:start_line && l:line_num == l:end_line
+            " 选中的是同一行的一部分
+            let l:selected_text .= strpart(line_text, l:start_col - 1, l:end_col - l:start_col + 1)
+        elseif l:line_num == l:start_line
+            " 选中的是起始行的部分
+            let l:selected_text .= strpart(line_text, l:start_col - 1)
+        elseif l:line_num == l:end_line
+            " 选中的是结束行的部分
+            let l:selected_text .= strpart(line_text, 0, l:end_col - 1)
+        else
+            " 选中的是中间的完整行
+            let l:selected_text .= line_text
+        endif
+        let l:selected_text .= "\n"  " 添加换行符号
+    endfor
+
+    " 去除最后一个多余的换行符
+    let l:selected_text = substitute(l:selected_text, '\n$', '', '')
 
     " 调用系统命令将内容复制到剪贴板
     let l:cmd = 'echo "' . escape(l:selected_text, '\"$`') . '" | xsel -b'
@@ -81,7 +111,6 @@ function! CopySelectedToClipboard()
     " 提示消息
     " echo "Copied to clipboard: " . l:selected_text
 endfunction
-
 " 绑定快捷键以调用复制函数
 vnoremap <C-y> :call CopySelectedToClipboard()<CR>
 
@@ -1055,12 +1084,26 @@ function! ConvertTabsToSpaces()
     set shiftwidth=4
     %retab!
 endfunction
+nnoremap <silent> <Space>tc :call ConvertTabsToSpaces()<CR>
 
 function! ChangeTabsToSpacesMode()
     set expandtab
     set tabstop=4
     set shiftwidth=4
 endfunction
+nnoremap <silent> <Space>ts :call ChangeTabsToSpacesMode()<CR>
+
+function! ConvertEightSpacesToTab()
+    let save_cursor = getpos('.')
+    let cursor_line = line('.')
+    let cursor_col = col('.')
+
+    %s/ \{8}/\t/g
+
+    call setpos('.', save_cursor)
+    call cursor(cursor_line, cursor_col)
+endfunction
+nnoremap <silent> <Space>tt :call ConvertEightSpacesToTab()<CR>
 
 """ vim-floaterm
 " https://github.com/voldikss/vim-floaterm
