@@ -39,5 +39,9 @@ let g:which_key_map.t = {
 let g:which_key_map.tl = {
             \ 'name':"ctags list",
             \}
+
+let g:which_key_map.bl = {
+            \ 'name':"git blame",
+            \}
 call which_key#register('<Space>', "g:which_key_map")
 """ end vim_which_key
