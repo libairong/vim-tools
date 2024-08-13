@@ -275,6 +275,8 @@ autocmd BufNewFile,BufRead * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\
 autocmd BufNewFile,BufRead * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
 hi cFunctions guifg=#7fd02e cterm=bold ctermfg=80 "函数蓝色80
 
+highlight Normal guibg=#D3D3D3 ctermbg=236
+
 syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
 hi cClass guifg=#7fd02e cterm=bold ctermfg=yellow
 
@@ -282,10 +284,10 @@ hi Search term=standout ctermfg=0 ctermbg=3 "搜索黄色3
 hi CursorLine ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE "光标行
 "hi CursorColumn ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
 "hi ColorColumn ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
-hi LineNr ctermfg=102 ctermbg=237 cterm=NONE guifg=#90908a guibg=#3c3d37 gui=NONE "行号
+hi LineNr ctermfg=102 ctermbg=238 cterm=NONE guifg=#90908a guibg=#3c3d37 gui=NONE "行号
 hi VertSplit ctermfg=241 ctermbg=241 cterm=NONE guifg=#64645e guibg=#64645e gui=NONE "分隔线
 hi MatchParen ctermfg=197 ctermbg=NONE cterm=underline guifg=#f92672 guibg=NONE gui=underline
-hi Comment ctermfg=242 ctermbg=NONE cterm=NONE guifg=#75715e guibg=NONE gui=NONE "注释
+hi Comment ctermfg=248 ctermbg=NONE cterm=NONE guifg=#6c6c6c guibg=NONE gui=NONE "注释
 hi Conditional ctermfg=197 ctermbg=NONE cterm=NONE guifg=#f92672 guibg=NONE gui=NONE "条件
 hi StatusLine ctermfg=231 ctermbg=241 cterm=bold guifg=#f8f8f2 guibg=#64645e gui=bold
 hi StatusLineNC ctermfg=231 ctermbg=241 cterm=NONE guifg=#f8f8f2 guibg=#64645e gui=NONE
@@ -1036,7 +1038,7 @@ else
     noremap <leader>fw :LeaderfWindow<cr>
     noremap <C-j>      :LeaderfBuffer<cr>
     noremap <C-f>      :Leaderf rg<cr>
-    let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', '.vim-cache*', ],'dir':['.git', '.vim-cache',]}
+    let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', '.vim-*', ],'dir':['.git', '.vim-cache',]}
     """" end leaderF
 
 endif
@@ -1157,4 +1159,17 @@ endfunction
 
 " Map <Space>bl to call GitBlameWholeFile
 nnoremap <silent> <Space>bl :call GitBlameWholeFile()<CR>
+
+""" vim ale
+"文件内容发生变化时不进行检查
+let g:ale_lint_on_text_changed = 'never'
+"打开文件时不进行检查
+let g:ale_lint_on_enter = 0
+
+"使用clang对c和c++进行语法检查，对python使用pylint进行语法检查
+let g:ale_linters = {
+\   'c++': ['g++'],
+\   'c': ['gcc'],
+\}
+""" end of vim ale
 
