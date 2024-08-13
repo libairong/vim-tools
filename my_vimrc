@@ -292,6 +292,11 @@ hi StatusLineNC ctermfg=231 ctermbg=241 cterm=NONE guifg=#f8f8f2 guibg=#64645e g
 " 如果没有这个配置，预览框的背景就是深紫红色,
 " 注意这里最重要的是前景色ctermfg，和背景色ctermbg
 hi Pmenu ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
+" 块模式选择的背景色
+hi Visual guibg=NONE ctermbg=22
+
+" 行模式选择的背景色
+hi VisualLine guibg=NONE ctermbg=22
 
 "Some nice mapping to switch syntax (useful if one mixes different languages in one file)
 map <leader>1 :set syntax=c<cr>
@@ -1016,7 +1021,7 @@ else
     " let g:Lf_WindowPosition = 'popup'
 
     let g:Lf_ShortcutF = '<leader><space>'
-    let g:Lf_UseGitIgnore = 0
+    let g:Lf_GitIgnore = 0
     " let g:Lf_ShortcutB = '<leader>pb'
     let g:Lf_PreviewInPopup = 1  "使能按ctrl p键在弹出窗口中预览结果
     " let g:Lf_WorkingDirectoryMode = 'c'
@@ -1031,7 +1036,7 @@ else
     noremap <leader>fw :LeaderfWindow<cr>
     noremap <C-j>      :LeaderfBuffer<cr>
     noremap <C-f>      :Leaderf rg<cr>
-    let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', ],'dir':['.git', '.vim-cache',]}
+    let g:Lf_WildIgnore={ 'file':['*.lib', '*.a', '*.o', '*.d', '*.so', '.vim-cache*', ],'dir':['.git', '.vim-cache',]}
     """" end leaderF
 
 endif
