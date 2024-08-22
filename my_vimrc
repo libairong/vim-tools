@@ -277,6 +277,7 @@ autocmd BufNewFile,BufRead * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\
 autocmd BufNewFile,BufRead * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
 hi cFunctions guifg=#7fd02e cterm=bold ctermfg=80 "函数蓝色80
 
+" note: guifg/guibg 是gvim 用的配置，在vim 这里配置不生效，但是不影响。
 highlight Normal guibg=#D3D3D3 ctermbg=236
 
 syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
@@ -1051,7 +1052,7 @@ let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_theme='molokai'
+" let g:airline_theme='molokai'
 """ end airline
 
 """ lightline

@@ -9,8 +9,8 @@ function! ToggleBottomWindow()
     " 如果底部窗口 ID 存在且有效，关闭它
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
-    " 关闭底部窗口
-    quit
+    " 关闭底部窗口，删除对应的buffer
+    execute 'bd'
     " 重置全局变量
     let g:bottom_window_id = -1
   else
@@ -32,7 +32,7 @@ function! ToggleBottomWindow()
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
     " 打开指定的文件
-    execute 'edit ~/.vim/novel'
+    execute 'edit ~/.vim/novel/shui_hu_zhuan.c'
 
     " 选中新创建的窗口
     let l:new_win = win_getid()
