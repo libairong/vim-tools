@@ -1,7 +1,7 @@
-" 创建一个高 3 行的新窗口，并确保它位于底部
-
 " 定义一个全局变量来跟踪底部窗口的 ID
 let g:bottom_window_id = -1
+let g:bottom_window_file = '~/.vim/novel/shui_hu_zhuan.c'
+let g:bottom_window_marker_file = expand('~/.vim/novel/bottom_window_marker')
 
 " 创建一个函数来处理底部窗口的打开和关闭
 function! ToggleBottomWindow()
@@ -9,7 +9,10 @@ function! ToggleBottomWindow()
     " 如果底部窗口 ID 存在且有效，关闭它
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
-    " 关闭底部窗口，删除对应的buffer
+    " 记录当前光标位置到临时文件
+    let l:cursor_pos = getpos('.')
+    call writefile([join(l:cursor_pos, ',')], g:bottom_window_marker_file)
+    " 关闭底部窗口，删除对应的 buffer
     execute 'bd'
     " 重置全局变量
     let g:bottom_window_id = -1
@@ -32,14 +35,22 @@ function! ToggleBottomWindow()
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
     " 打开指定的文件
-    execute 'edit ~/.vim/novel/shui_hu_zhuan.c'
+    execute 'edit ' . g:bottom_window_file
+
+    " 恢复光标位置
+    if filereadable(g:bottom_window_marker_file)
+      let l:cursor_pos = split(readfile(g:bottom_window_marker_file)[0], ',')
+      call setpos('.', l:cursor_pos)
+      " 删除临时文件
+      call delete(g:bottom_window_marker_file)
+    endif
 
     " 选中新创建的窗口
-    let l:new_win = win_getid()
-    if l:current_win != l:new_win
-      " 返回到原窗口
-      call win_gotoid(l:current_win)
-    endif
+    " let l:new_win = win_getid()
+    " if l:current_win != l:new_win
+    "   " 返回到原窗口
+    "   call win_gotoid(l:current_win)
+    " endif
   endif
 endfunction
 
