@@ -8,16 +8,10 @@ nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 "" test demo
-nnoremap <Leader>a<Tab> :echom "Hello, World"<cr>
-nnoremap <Leader>1 :echom "THis is one"<cr>
 
 let g:which_key_map = {}
 
-let g:which_key_map.a = {
-            \ 'name':"Test",
-            \ '<Tab>':"Hello world"
-            \}
-let g:which_key_map.1 = "One"
+let g:which_key_map.a = "open novels"
 "" end test demo
 
 let g:which_key_map.h = {
@@ -40,8 +34,7 @@ let g:which_key_map.tl = {
             \ 'name':"ctags list",
             \}
 
-let g:which_key_map.bl = {
-            \ 'name':"git blame",
-            \}
+let g:which_key_map.bl = "git blame"
+
 call which_key#register('<Space>', "g:which_key_map")
 """ end vim_which_key

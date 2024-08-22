@@ -10,6 +10,7 @@
 source ~/.vim/myvimscripts/utils.vim
 source ~/.vim/myvimscripts/GlobalConstant.vim
 source ~/.vim/myvimscripts/InitalCode.vim
+source ~/.vim/myvimscripts/moyu.vim
 
 """" end source vimscripts
 
@@ -45,6 +46,7 @@ syntax on
 filetype plugin indent on
 """" end_call_plugins
 
+" this vimscript dependence on some plugins.
 source ~/.vim/myvimscripts/key_map.vim
 " source ~/.vim/myvimscripts/c.vim
 
@@ -295,7 +297,7 @@ hi StatusLineNC ctermfg=231 ctermbg=241 cterm=NONE guifg=#f8f8f2 guibg=#64645e g
 " 注意这里最重要的是前景色ctermfg，和背景色ctermbg
 hi Pmenu ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
 " 块模式选择的背景色
-hi Visual guibg=NONE ctermbg=22
+hi Visual guibg=NONE ctermbg=24
 
 " 行模式选择的背景色
 hi VisualLine guibg=NONE ctermbg=22
@@ -1049,6 +1051,7 @@ let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_theme='molokai'
 """ end airline
 
 """ lightline
