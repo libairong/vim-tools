@@ -1,7 +1,59 @@
-" 定义一个全局变量来跟踪底部窗口的 ID
+" 定义全局变量
 let g:bottom_window_id = -1
-let g:bottom_window_file = '~/.vim/novel/shui_hu_zhuan.c'
-let g:bottom_window_marker_file = expand('~/.vim/novel/bottom_window_marker')
+let g:bottom_window_file = '~/.vim/novel/'
+let g:bottom_window_marker_file = expand('~/.vim/novel/bottom_window_marker')  " 保存最后打开的文件
+
+" 定义全局变量
+let g:bookmark_file = expand('~/.vim/novel/bookmarks')
+
+" 保存当前文件和光标位置到书签文件
+function! SaveBookmark()
+  let l:current_file = expand('%:p')
+  let l:cursor_pos = getpos('.')
+
+  " 读取已有的书签
+  let l:bookmarks = []
+  if filereadable(g:bookmark_file)
+    let l:bookmarks = readfile(g:bookmark_file)
+  endif
+
+  " 更新或添加当前文件的书签
+  let l:found = 0
+  for l:line in l:bookmarks
+    let l:parts = split(l:line, ' ')
+    if len(l:parts) >= 2 && l:parts[0] == l:current_file
+      " 更新光标位置
+      let l:bookmarks[match(l:line, l:current_file)] = l:current_file . ' ' . join(l:cursor_pos, ',')
+      let l:found = 1
+      break
+    endif
+  endfor
+
+  if !l:found
+    " 添加新的书签
+    call add(l:bookmarks, l:current_file . ' ' . join(l:cursor_pos, ','))
+  endif
+
+  " 写入书签文件
+  call writefile(l:bookmarks, g:bookmark_file)
+endfunction
+
+" 恢复光标到书签位置
+function! RestoreBookmark()
+  let l:current_file = expand('%:p')
+
+  if filereadable(g:bookmark_file)
+    let l:bookmarks = readfile(g:bookmark_file)
+    for l:line in l:bookmarks
+      let l:parts = split(l:line, ' ')
+      if len(l:parts) >= 2 && l:parts[0] == l:current_file
+        let l:cursor_pos = split(l:parts[1], ',')
+        call setpos('.', l:cursor_pos)
+        return
+      endif
+    endfor
+  endif
+endfunction
 
 " 创建一个函数来处理底部窗口的打开和关闭
 function! ToggleBottomWindow()
@@ -9,9 +61,16 @@ function! ToggleBottomWindow()
     " 如果底部窗口 ID 存在且有效，关闭它
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
-    " 记录当前光标位置到临时文件
+    " 记录当前光标位置和文件名到临时文件
     let l:cursor_pos = getpos('.')
-    call writefile([join(l:cursor_pos, ',')], g:bottom_window_marker_file)
+    let l:current_file = expand('%:p')
+    " 清空文件
+    call writefile([], g:bottom_window_marker_file)
+    call writefile([l:current_file . ' ' . join(l:cursor_pos, ',')], g:bottom_window_marker_file)
+
+    " 保存到书签里面
+    call SaveBookmark()
+
     " 关闭底部窗口，删除对应的 buffer
     execute 'bd'
     " 重置全局变量
@@ -34,15 +93,22 @@ function! ToggleBottomWindow()
 
     " 切换到底部窗口
     call win_gotoid(g:bottom_window_id)
-    " 打开指定的文件
-    execute 'edit ' . g:bottom_window_file
-
-    " 恢复光标位置
+    " 读取标记文件中的文件名和光标位置
     if filereadable(g:bottom_window_marker_file)
-      let l:cursor_pos = split(readfile(g:bottom_window_marker_file)[0], ',')
+      " echo "start"
+      let l:marker_data = readfile(g:bottom_window_marker_file)
+      " echo l:marker_data
+      let l:marker_datas = split(l:marker_data[0], ' ')
+      " echo l:marker_datas
+      let l:target_file = l:marker_datas[0]
+      let l:cursor_pos = l:marker_datas[1]
+      " 打开标记文件中保存的文件
+      execute 'edit ' . l:target_file
+      " 定位到保存的光标位置
       call setpos('.', l:cursor_pos)
-      " 删除临时文件
-      call delete(g:bottom_window_marker_file)
+    else
+      " 默认打开的文件
+      execute 'edit ' . g:bottom_window_file
     endif
 
     " 选中新创建的窗口
@@ -56,3 +122,6 @@ endfunction
 
 " 绑定快捷键来调用这个函数
 nnoremap <silent> <Space>a :call ToggleBottomWindow()<CR>
+nnoremap <silent> <Space>j :call ToggleBottomWindow()<CR>
+nnoremap <silent> <Space>r :call RestoreBookmark()<CR>
+
