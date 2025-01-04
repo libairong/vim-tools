@@ -97,15 +97,19 @@ function! ToggleBottomWindow()
     if filereadable(g:bottom_window_marker_file)
       " echo "start"
       let l:marker_data = readfile(g:bottom_window_marker_file)
-      " echo l:marker_data
-      let l:marker_datas = split(l:marker_data[0], ' ')
-      " echo l:marker_datas
-      let l:target_file = l:marker_datas[0]
-      let l:cursor_pos = l:marker_datas[1]
-      " 打开标记文件中保存的文件
-      execute 'edit ' . l:target_file
-      " 定位到保存的光标位置
-      call setpos('.', l:cursor_pos)
+      if l:marker_data == []
+	execute 'edit ' . g:bottom_window_file
+      else
+        " echo l:marker_data
+        let l:marker_datas = split(l:marker_data[0], ' ')
+        " echo l:marker_datas
+        let l:target_file = l:marker_datas[0]
+        let l:cursor_pos = l:marker_datas[1]
+        " 打开标记文件中保存的文件
+        execute 'edit ' . l:target_file
+        " 定位到保存的光标位置
+        call setpos('.', l:cursor_pos)
+      endif
     else
       " 默认打开的文件
       execute 'edit ' . g:bottom_window_file
