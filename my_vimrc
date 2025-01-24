@@ -108,7 +108,7 @@ function! CopySelectedToClipboard()
     let l:selected_text = substitute(l:selected_text, '\n$', '', '')
 
     " 调用系统命令将内容复制到剪贴板
-    let l:cmd = 'echo "' . escape(l:selected_text, '\"$`') . '" | xsel -b'
+    let l:cmd = 'echo "' . escape(l:selected_text, '\"$`') . '" | clip.exe'
     call system(l:cmd)
 
     " 提示消息
@@ -279,13 +279,13 @@ function! MyClolorStyle()
     hi cFunctions guifg=#7fd02e cterm=bold ctermfg=80 "函数蓝色80
 
     " note: guifg/guibg 是gvim 用的配置，在vim 这里配置不生效，但是不影响。
-    highlight Normal guibg=#D3D3D3 ctermbg=236
+    highlight Normal guibg=#D3D3D3 ctermbg=234
 
     syn match cClass "\<[a-zA-Z_][a-zA-Z_0-9]*\>::"me=e-2
     hi cClass guifg=#7fd02e cterm=bold ctermfg=yellow
 
     hi Search term=standout ctermfg=0 ctermbg=3 "搜索黄色3
-    hi CursorLine ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE "光标行
+    hi CursorLine ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE "光标行
     "hi CursorColumn ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
     "hi ColorColumn ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
     hi LineNr ctermfg=102 ctermbg=238 cterm=NONE guifg=#90908a guibg=#3c3d37 gui=NONE "行号
@@ -1180,4 +1180,26 @@ let g:ale_linters = {
 \   'c': ['gcc'],
 \}
 """ end of vim ale
+
+""" cpp syntax.
+" Disable function highlighting (affects both C and C++ files)
+let g:cpp_function_highlight = 1
+
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight = 1
+
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
+
+" Disable highlighting of type names in class, struct, union, enum, using, and
+" concept declarations (affects both C and C++ files)
+let g:cpp_type_name_highlight = 1
+
+" Highlight operators (affects both C and C++ files)
+let g:cpp_operator_highlight = 1
+
+" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
+" (affects both C and C++ files)
+let g:cpp_simple_highlight = 1
+""" end of cpp syntax
 

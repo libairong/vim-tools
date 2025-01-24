@@ -1,0 +1,3 @@
+[submodule "bundle/syntax/vim-c-cpp-modern"]
+	path = bundle/syntax/vim-c-cpp-modern
+	url = https://github.com/bfrg/vim-c-cpp-modern.git
