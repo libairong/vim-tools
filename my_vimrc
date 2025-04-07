@@ -837,6 +837,7 @@ function! SearchStrByKeyboardInCurrFile()
     let l:str = g:utils#GetStrByInput()
     exec "vim /" . l:str . "/ %"
     exec "copen"
+    exec "set nowrap"
 endfunction
 nmap <silent> <leader>vt :call SearchStrByKeyboardInCurrFile() <cr>
 
@@ -848,6 +849,7 @@ function! SearchCurrStringInCurrDir()
 "    echo "search ..."
 "    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath . "| sed 's/" . "\\/home\\/libairong" . "/~/g'"
     exec "copen"
+    exec "set nowrap"
 endfunction
 
 nmap <silent> <leader>vv :call SearchCurrStringInCurrDir() <cr>
@@ -859,6 +861,7 @@ function! SearchStringInCurrDir()
         \. " --exclude=tags "
         \ . g:GlobalConstant#currPath
     exec "copen"
+    exec "set nowrap"
 endfunction
 
 nmap <silent> <leader>vs :call SearchStringInCurrDir() <cr>
@@ -871,6 +874,7 @@ function! SearchCurrWordInCurrDir()
 "    echo "search ..."
 "    exec "AsyncRun! grep -rnI \"" . l:str . "\" " . s:currPath . "| sed 's/" . "\\/home\\/libairong" . "/~/g'"
     exec "copen"
+    exec "set nowrap"
 endfunction
 nmap <silent> <leader>vw :call SearchCurrWordInCurrDir() <cr>
 
@@ -882,6 +886,7 @@ function! SearchFunctionDefine()
     exec "AsyncRun! grep -rnw -e '" . l:funcName . "([^)]*)[^;]*$' --exclude=tags "
             \   . g:GlobalConstant#currPath
     exec "copen"
+    exec "set nowrap"
 endfunction
 
 nmap <silent> <leader>vf :call SearchFunctionDefine() <cr>
@@ -891,6 +896,7 @@ function! SearchFunctionDefine1()
     let l:str = expand('<cword>')
     exec "AsyncRun! grep -wrnI \"" . l:str . "\" " . g:GlobalConstant#currPath . " | grep \"(.*[^;]$\" "
     exec "copen"
+    exec "set nowrap"
 endfunction
 
 nmap <silent> <leader>vff :call SearchFunctionDefine1() <cr>
