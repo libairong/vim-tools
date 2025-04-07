@@ -11,6 +11,18 @@
 
 
 "----------------------------------------------------------------------
+" tune
+"----------------------------------------------------------------------
+let g:asyncrun_term_wipe = get(g:, 'asyncrun_term_wipe', 1)
+" let g:asyncrun_term_hidden = get(g:, 'asyncrun_term_hidden', 'wipe')
+if has('nvim') == 0
+	if v:version >= 802
+		let g:asyncrun_term_safe = get(g:, 'asyncrun_term_safe', 1)
+	endif
+endif
+
+
+"----------------------------------------------------------------------
 " internal
 "----------------------------------------------------------------------
 let g:asyncrun_event = get(g:, 'asyncrun_event', {})
@@ -93,5 +105,45 @@ endfunc
 function! g:asyncrun_event.program(name)
 	call s:load_program(a:name)
 endfunc
+
+
+"----------------------------------------------------------------------
+" detect current root
+"----------------------------------------------------------------------
+function! s:root_locator(name)
+	let root = ''
+	if exists('g:asyncrun_rooter')
+		if type(g:asyncrun_rooter) == type('')
+			let root = call(g:asyncrun_rooter, [a:name])
+		elseif type(g:asyncrun_rooter) == type({})
+			let test = keys(g:asyncrun_rooter)
+			call sort(test)
+			for name in test
+				let root = call(g:asyncrun_rooter[name], [a:name])
+				if root != ''
+					return root
+				endif
+			endfor
+		elseif type(g:asyncrun_rooter) == type([])
+			for index in range(len(g:asyncrun_rooter))
+				let root = call(g:asyncrun_rooter[index], [a:name])
+				if root != ''
+					return root
+				endif
+			endfor
+		endif
+		if root != ''
+			return root
+		endif
+	endif
+	let root = asyncrun#locator#detect(a:name)
+	if root != '' && isdirectory(root)
+		return root
+	endif
+	return ''
+endfunc
+
+
+let g:asyncrun_locator = string(function('s:root_locator'))[10:-3]
 
 
